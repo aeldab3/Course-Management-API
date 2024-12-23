@@ -4,45 +4,11 @@ const usersController = require("../controller/users.controller");
 const authorizeToken = require("../middlewares/authorizeToken");
 const allowedTo = require("../middlewares/allowedTo");
 const userRole = require("../utils/userRoles");
-const multer = require("multer");
-const path = require("path");
-const AppError = require("../utils/appError");
-const httpStatusText = require("../utils/httpStatusText");
-
-
-const diskStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './uploads/');
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        const filename = `user-${Date.now()}${ext}`;
-        cb(null, filename);
-    },
-});
-
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif/;
-    const extname = allowedTypes.test(path.extname(file.originalname));
-    const mimetype = allowedTypes.test(file.mimetype);
-
-    if (extname && mimetype) {
-        return cb(null, true);
-    }
-    else {
-        return cb(new AppError("Invalid file type, allowed: jpeg, jpg, png, gif", 400, httpStatusText.FAIL), false);
-    }
-}
-
-const upload = multer({ storage: diskStorage, 
-    fileFilter: fileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 }
-});
-
+const upload = require("../middlewares/upload");
 
 
 router.route("/")
-                .get(authorizeToken, allowedTo(userRole.ADMIN), usersController.getAllUsers)
+                .get(authorizeToken, allowedTo(userRole.MANAGER, userRole.ADMIN), usersController.getAllUsers)
 
 router.route("/register")
                 .post(upload.single("profilePicture"), usersController.register)
@@ -50,5 +16,12 @@ router.route("/register")
 router.route("/login")
                 .post(usersController.login)
 
+router.route("/logout")
+                .post(authorizeToken, usersController.logout)
+
+router.route("/:id")
+                .get(authorizeToken, allowedTo(userRole.MANAGER, userRole.ADMIN), usersController.getUserById)
+                .patch(authorizeToken, upload.single("profilePicture"), usersController.updateUser)
+                .delete(authorizeToken, allowedTo(userRole.MANAGER), usersController.deleteUser)
 
 module.exports = router;

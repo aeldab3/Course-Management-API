@@ -25,10 +25,10 @@ const userSchema = Joi.object({
             "any.required": "Password is required.",
         }),
     role: Joi.string()
-        .valid("admin", "student") // Restrict to specific values
+        .valid("manager", "admin", "student") // Restrict to specific values
         .default("student") // Default value
         .messages({
-            "any.only": "Role must be either 'admin' or 'student'.",
+            "any.only": "Role must be either 'manager', 'admin' or 'student'.",
         }),
 });
 

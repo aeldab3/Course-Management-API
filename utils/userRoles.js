@@ -1,4 +1,5 @@
 const userRole = {
+    MANAGER: "manager",
     ADMIN: "admin",
     STUDENT: "student"
 };

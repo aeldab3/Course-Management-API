@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     email: {
         type: String,
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         },
         role: {
             type: String,
-            enum: [userRole.ADMIN, userRole.STUDENT],
+            enum: [userRole.MANAGER, userRole.ADMIN, userRole.STUDENT],
             default: userRole.STUDENT
         },
         token: {

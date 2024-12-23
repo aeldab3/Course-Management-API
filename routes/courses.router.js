@@ -8,12 +8,12 @@ const userRole = require("../utils/userRoles");
 
 
 router.route("/")
-                .get(coursesController.getAllCourses)
-                .post(authorizeToken, allowedTo(userRole.ADMIN), coursesController.addCourse);
+                .get(authorizeToken, coursesController.getAllCourses)
+                .post(authorizeToken, allowedTo(userRole.MANAGER ,userRole.ADMIN), coursesController.addCourse);
 
 router.route("/:id")
-                .get(coursesController.getCourseById)
-                .patch(authorizeToken, allowedTo(userRole.ADMIN),coursesController.updateCourse)
-                .delete(authorizeToken, allowedTo(userRole.ADMIN), coursesController.deleteCourse);
+                .get(authorizeToken, coursesController.getCourseById)
+                .patch(authorizeToken, allowedTo(userRole.MANAGER ,userRole.ADMIN),coursesController.updateCourse)
+                .delete(authorizeToken, allowedTo(userRole.MANAGER ,userRole.ADMIN), coursesController.deleteCourse);
 
 module.exports = router;

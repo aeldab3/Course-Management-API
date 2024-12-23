@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Platform!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .body {
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .body h1 {
+            font-size: 22px;
+            color: #444;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            color: #777;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            Welcome to Our Platform!
+        </div>
+        <div class="body">
+            <h1>Hello {{username}},</h1>
+            <p>Thank you for registering. We're excited to have you onboard!</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Ahmed Eldab3 Company. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

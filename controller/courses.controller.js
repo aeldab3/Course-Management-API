@@ -21,8 +21,7 @@ const getCourseById = asyncWrapper(
     async (req, res, next) => {
         const course = await Course.findById(req.params.id);
         if (!course) {
-            const error = new AppError("Course not found", 404, httpStatusText.FAIL);
-            return next(error);
+            return next(new AppError("Course not found", 404, httpStatusText.FAIL));
         }
         return res.json({status: httpStatusText.SUCCESS, data: {course}});
     }
@@ -34,15 +33,9 @@ const addCourse = asyncWrapper(
     if (error) {
         return next(new AppError(error.message, 400, httpStatusText.FAIL));
     }
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     const error = new AppError(errors.array(), 400, httpStatusText.FAIL);
-    //     return next(error);
-    // } else {
         const newCourse = new Course(req.body);
         await newCourse.save();
         return res.status(201).json({status: httpStatusText.SUCCESS, data: {course: newCourse}});
-    // }
 });
 
 const updateCourse = asyncWrapper( 
@@ -53,8 +46,7 @@ const updateCourse = asyncWrapper(
         }
         const updatedCourse = await Course.findByIdAndUpdate(req.params.id, {$set: {...req.body}}, { new: true });
         if (!updatedCourse) {
-            const error = new AppError("Course not found", 404, httpStatusText.FAIL);
-            return next(error);
+            return next(new AppError("Course not found", 404, httpStatusText.FAIL));
         }
         return res.json({status: httpStatusText.SUCCESS, data: {course: updatedCourse}});
 });
@@ -64,8 +56,7 @@ const deleteCourse = asyncWrapper(
     try {
         const courseDeleted = await Course.deleteOne({_id: req.params.id});
         if (!courseDeleted) {
-            const error = new AppError("Course not found", 404, httpStatusText.FAIL);
-            return next(error);
+            return next(new AppError("Course not found", 404, httpStatusText.FAIL));
         }
         return res.status(200).json({status: httpStatusText.SUCCESS, data: null});
     }
